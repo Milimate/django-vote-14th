@@ -36,30 +36,6 @@ ceos 15th executive voting application of Millimate-back
 |---|---|---|---|
 |GET|/ceos-15th-partzzang|메인 화면||
 
-```json
-[
-	{
-		"userNum" : 1,
-		"nickname" : "화연1",
-		"profileUrl" : "/uploads/0-profile.jpeg",
-		"coin" : 500,
-		"university" : "ewha",
-		"email" : "kim23592@ewhain.net",
-		"authenticatedDate" : "2020-01-04 12:23:56"
-		"delete_flag" : false
-	},
-  {
-		"userNum" : 34,
-		"nickname" : "유저34",
-		"profileUrl" : "/uploads/1-profile.jpeg",
-		"coin" : 230,
-		"university" : null,
-		"email" : null,
-		"authenticatedDate" : "2020-01-04 12:23:56"
-    "delete_flag" : true
-	}
-]
-```
 
 
 
