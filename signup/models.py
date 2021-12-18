@@ -49,6 +49,11 @@ class User(AbstractBaseUser):
         unique=True
     )
 
+    password = models.CharField(
+        verbose_name='Password',
+        max_length = 255
+    )
+
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
