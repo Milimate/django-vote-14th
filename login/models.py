@@ -1,93 +1,74 @@
-from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser, PermissionsMixin
-)
+from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin
 from django.db import models
-from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, nickname, password=None):
-        """
-        주어진 이메일, 닉네임, 비밀번호 등 개인정보로 User 인스턴스 생성
-        """
+    use_in_migrations = True
+
+    def create_user(self, username, password, email):
+
+        if not username:
+            raise ValueError('must have username')
         if not email:
-            raise ValueError(_('Users must have an email address'))
+            raise ValueError('must have user email')
+        if not password:
+            raise ValueError('must have user password')
 
         user = self.model(
+            username=username,
             email=self.normalize_email(email),
-            nickname=nickname,
         )
-
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, nickname, last_name, first_name, password):
-        """
-        주어진 이메일, 닉네임, 비밀번호 등 개인정보로 User 인스턴스 생성
-        단, 최상위 사용자이므로 권한을 부여한다.
-        """
-        user = self.create_user(
-            email=email,
-            password=password,
-            nickname=nickname,
+    def create_superuser(self, username, password=None, email=None, **extra_fields):
+        superuser = self.create_user(
+            username = username,
+            email = email,
+            password = password,
         )
 
-        user.is_superuser = True
-        user.save(using=self._db)
-        return user
+        superuser.is_staff = True
+        superuser.is_superuser = True
+        superuser.is_active = True
+        superuser.save(using=self._db)
+        return superuser
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser):
     email = models.EmailField(
-        verbose_name=_('Email address'),
+        verbose_name='Email address',
         max_length=255,
         unique=True,
     )
-    nickname = models.CharField(
-        verbose_name=_('Nickname'),
-        max_length=30,
+
+    username = models.CharField(
+        verbose_name='Username',
+        max_length=50,
         unique=True
     )
-    is_active = models.BooleanField(
-        verbose_name=_('Is active'),
-        default=True
-    )
-    date_joined = models.DateTimeField(
-        verbose_name=_('Date joined'),
-        default=timezone.now
-    )
-    # 이 필드는 레거시 시스템 호환을 위해 추가할 수도 있다.
-    salt = models.CharField(
-        verbose_name=_('Salt'),
-        max_length=10,
-        blank=True
-    )
+
+    is_superuser = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False) # 추가
+    is_staff = models.BooleanField(default=False) # 추가
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['nickname', ]
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['password', 'email']
 
     class Meta:
-        verbose_name = _('user')
-        verbose_name_plural = _('users')
-        ordering = ('-date_joined',)
+        managed = True
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
 
-    def __str__(self):
-        return self.nickname
-
-    def get_full_name(self):
-        return self.nickname
-
-    def get_short_name(self):
-        return self.nickname
-
-    @property
-    def is_staff(self):
-        "Is the user a member of staff?"
-        # Simplest possible answer: All superusers are staff
+    def has_perm(self, perm, obj=None):
         return self.is_superuser
 
-    get_full_name.short_description = _('Full name')
+    def has_module_perms(self, app_label):
+        return self.is_superuser
+
+    def __str__(self):
+        return self.username
