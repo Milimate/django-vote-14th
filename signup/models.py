@@ -19,21 +19,23 @@ class UserManager(BaseUserManager):
             username=username,
             email=self.normalize_email(email),
         )
+
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, password, email):
-
-        user = self.create_user(
-            username=username,
-            email=email,
-            password=password,
+    def create_superuser(self, username, password=None, email=None, **extra_fields):
+        superuser = self.create_user(
+            username = username,
+            email = email,
+            password = password,
         )
 
-        user.is_superuser = True
-        user.save(using=self._db)
-        return user
+        superuser.is_staff = True
+        superuser.is_superuser = True
+        superuser.is_active = True
+        superuser.save(using=self._db)
+        return superuser
 
 
 class User(AbstractBaseUser):
@@ -49,19 +51,25 @@ class User(AbstractBaseUser):
         unique=True
     )
 
-    password = models.CharField(
-        verbose_name='Password',
-        max_length = 255
-    )
+    is_superuser = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False) # 추가
+    is_staff = models.BooleanField(default=False) # 추가
 
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['password', 'email']
 
     class Meta:
         managed = True
         verbose_name = 'User'
         verbose_name_plural = 'Users'
+
+    def has_perm(self, perm, obj=None):
+        return self.is_superuser
+
+    def has_module_perms(self, app_label):
+        return self.is_superuser
 
     def __str__(self):
         return self.username
