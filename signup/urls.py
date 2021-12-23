@@ -1,6 +1,6 @@
-from django.urls import path
+from django.urls import path, include
 from signup import views
 
 urlpatterns = [
-    path('ceos-15th-partzzang/signup', views.signup_list)
+    path('signup', views.SignupView.as_view())
 ]
