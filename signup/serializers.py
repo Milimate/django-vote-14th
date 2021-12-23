@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from signup.models import User
+from django.apps import apps
+User = apps.get_model('login', 'User')
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

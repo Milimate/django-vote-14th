@@ -1,9 +1,10 @@
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-
-from .models import User
 from .serializers import SignupSerializer, UserSerializer
+
+from django.apps import apps
+User = apps.get_model('login', 'User')
 
 
 class SignupView(ListCreateAPIView):
