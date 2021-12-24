@@ -13,6 +13,7 @@ RUN apk add zlib-dev jpeg-dev gcc musl-dev
 
 # By copying over requirements first, we make sure that Docker will cache
 # our installed requirements rather than reinstall them on every build
+RUN python3 -m pip install --upgrade pip
 COPY requirements.txt /app/requirements.txt
 RUN pip install -r requirements.txt
 
