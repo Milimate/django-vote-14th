@@ -99,6 +99,3 @@ ceos 15th executive voting application of Millimate-back
 |picture|string||
 |position|char||
 |vote_count|int||
-
---
-test
