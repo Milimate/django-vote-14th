@@ -9,8 +9,11 @@ RUN apk add --no-cache mariadb-connector-c-dev
 RUN apk update && apk add python3 python3-dev mariadb-dev build-base && pip3 install mysqlclient
 
 ## dependencies for pillow
-RUN apk add --no-cache jpeg-dev zlib-dev
-RUN apk add --no-cache --virtual .build-deps build-base linux-headers
+# RUN apk —update && apk add jpeg-dev zlib-dev
+# RUN apk add —no-cache —virtual .build-deps build-base linux-headers
+RUN apk add -no-cache jpeg-dev zlib-dev
+RUN apk add -no-cache -virtual .build-deps build-base linux-headers \
+    && pip install Pillow
 
 # 이찬진이 추가하라고 함
 RUN /usr/local/bin/python -m pip install - upgrade pip
