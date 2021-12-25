@@ -9,7 +9,7 @@ RUN apk add --no-cache mariadb-connector-c-dev
 RUN apk update && apk add python3 python3-dev mariadb-dev build-base && pip3 install mysqlclient
 
 # dependencies for pillow
-RUN apk update && apk add --no-cache jpeg-dev zlib-dev
+RUN apk update && apk add jpeg-dev zlib-dev
 RUN apk add --no-cache --virtual .build-deps build-base linux-headers
 
 # By copying over requirements first, we make sure that Docker will cache
