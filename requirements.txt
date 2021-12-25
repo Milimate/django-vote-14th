@@ -4,10 +4,10 @@ django-cors-headers==3.10.1
 django-environ==0.8.1
 djangorestframework==3.12.4
 mysqlclient==2.1.0
-numpy==1.21.4
 PyJWT==2.3.0
 PyMySQL==1.0.2
 pytz==2021.1
 six==1.16.0
 sqlparse==0.4.2
 h5py==2.10.0
+numpy==1.21.4
