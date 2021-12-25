@@ -101,4 +101,4 @@ ceos 15th executive voting application of Millimate-back
 |vote_count|int||
 
 --
-docker
+pip 업데이트 수정
