@@ -12,6 +12,9 @@ RUN apk update && apk add python3 python3-dev mariadb-dev build-base && pip3 ins
 RUN apk add --no-cache jpeg-dev zlib-dev
 RUN apk add --no-cache --virtual .build-deps build-base linux-headers
 
+# 이찬진이 추가하라고 함
+RUN /usr/local/bin/python -m pip install - upgrade pip
+
 # By copying over requirements first, we make sure that Docker will cache
 # our installed requirements rather than reinstall them on every build
 RUN python3 -m pip install --upgrade pip setuptools wheel
