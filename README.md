@@ -223,3 +223,61 @@ class VoteView(APIView):
         serializer = CandidateSerializer(candidates, many=True)
         return Response(serializer.data)
 ```
+
+
+## 수경 - 회원가입 기능 담당
+
+## <회원가입>
+
+
+
+```python
+# 회원가입 POST view
+
+class SignupView(ListCreateAPIView):
+    create_queryset = User.objects.all()
+    serializer_class = SignupSerializer
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        newUser = serializer.save()
+
+        return Response(
+            {
+                "user": UserSerializer(newUser, context=self.get_serializer_context()).data,
+            }
+        )
+```
+
+
+
+```python
+# serializer
+
+from rest_framework import serializers
+from django.apps import apps
+User = apps.get_model('login', 'User')
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email']
+
+
+class SignupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'password', 'email']
+        extra_kwargs = {"password": {"write_only": True}}
+
+        def create(self, validated_data):
+            vote_user = User.objects.create_user(
+                validated_data["username"], validated_data["email"], validated_data["password"]
+            )
+
+            return vote_user
+```
+
