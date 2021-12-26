@@ -1,7 +1,15 @@
-# django-vote-14th
-ceos 15th executive voting application of Millimate-back 
+# 🪐MyPlanIt🪐
 
-## 1차 모델링
+
+
+## [🌒API 명세서](https://www.notion.so/CEOS-15-App-950479e6f0b84cefad5735d7c2d8e250)
+
+
+
+## 🌓ERD
+![erd](https://user-images.githubusercontent.com/80563849/147400579-9ca281df-ccb3-45a4-a3d1-adde2169ae80.png)
+
+
 
 ### 1. User 모델
 > Abstractbaseuser 이용
