@@ -182,6 +182,3 @@ class SignupSerializer(serializers.ModelSerializer):
 
             return vote_user
 ```
-
-
-tnwjd
