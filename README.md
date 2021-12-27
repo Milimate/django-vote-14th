@@ -184,4 +184,3 @@ class SignupSerializer(serializers.ModelSerializer):
 ```
 
 
-# 수정
