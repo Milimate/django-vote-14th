@@ -183,3 +183,5 @@ class SignupSerializer(serializers.ModelSerializer):
             return vote_user
 ```
 
+
+# 수정
